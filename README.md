@@ -7,4 +7,4 @@
 
 - 2주차 1주차 review / 상속 / 추상 클래스
 ## 수업 자료
-준비중...
+[pdf로 준비했습니다!](https://github.com/pss214/spring_one_spoon/tree/main/ppt)<-누르면 수업 자료폴더로 이동합니다
