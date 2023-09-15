@@ -1,6 +1,8 @@
-package two_week;
+package two_week.animal;
 
-public class Eagle extends Animal{
+import two_week.animal.Animal;
+
+public class Eagle extends Animal {
     public Eagle(String name) {
         super(name);
     }

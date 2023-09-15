@@ -1,4 +1,4 @@
-package two_week;
+package two_week.animal;
 
 public class Animal {
     String name;
