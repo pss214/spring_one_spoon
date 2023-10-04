@@ -1,1 +1,38 @@
 /Main.java
+four/HELP.md
+four/.gradle/
+four/build/
+four/!gradle/wrapper/gradle-wrapper.jar
+four/!**/src/main/**/build/
+four/!**/src/test/**/build/
+
+### STS ###
+four/.apt_generated
+four/.classpath
+four/.factorypath
+four/.project
+four/.settings
+four/.springBeans
+four/.sts4-cache
+four/bin/
+four/!**/src/main/**/bin/
+four/!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+four/.idea
+four/*.iws
+four/*.iml
+four/*.ipr
+four/out/
+four/!**/src/main/**/out/
+four/!**/src/test/**/out/
+
+### NetBeans ###
+four/nbproject/private/
+four/nbbuild/
+four/dist/
+four/nbdist/
+four/.nb-gradle/
+
+### VS Code ###
+four.vscode/
