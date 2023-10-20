@@ -10,6 +10,8 @@
 - 3주차 2주차 review / 인터페이스 / 자바 기본 클래스 / 컬랙션과 제네릭 / 예외 처리
 
 - 4주차 3주차 review / 스프링? / 프로젝트 시작 / 스프링 구조
+
+- 5주차 4주차 review / CRUD 게시판 (변수.ver) / DB연결 / CRUD 게시판
 ## 수업 자료
 [[pdf로 준비했습니다]](https://github.com/pss214/spring_one_spoon/tree/main/ppt) 수업 자료폴더
 
