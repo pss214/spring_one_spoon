@@ -6,14 +6,14 @@ import java.time.LocalDate;
 
 @Data
 public class Board {
-    Long id;
+    int id;
     String subject;
     String writer;
     String content;
     int readCnt;
     LocalDate registDate;
 
-    public Board(Long id, String subject, String writer, String content, int readCnt, LocalDate registDate) {
+    public Board(int id, String subject, String writer, String content, int readCnt, LocalDate registDate) {
         this.id = id;
         this.subject = subject;
         this.content = content;
