@@ -22,3 +22,21 @@ public class Board {
         this.registDate = registDate;
     }
 }
+/*
+@Data
+@Entity
+@Builder
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Board {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String subject;
+    private String writer;
+    private String content;
+    private int readCnt;
+    private LocalDate registDate;
+}
+ */

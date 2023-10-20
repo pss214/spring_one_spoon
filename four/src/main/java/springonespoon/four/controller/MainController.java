@@ -56,5 +56,3 @@ public class MainController {
     }
 }
 
-//Board.builder().seqno(1L).subject("처음 작성").readCnt(1).registDate(LocalDate.now()).build()
-
