@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<body>
+<div class="container-lg">
+    <p class="h2">회원</p>
+    <form>
+      <div class="mb-2">
+        <label for="exampleInputUsername1" class="form-label">아이디</label>
+        <input type="text" class="form-control form-control-sm" id="exampleInputUsername1">
+      </div>
+      <div class="mb-2">
+        <label for="exampleInputPassword1" class="form-label">비밀번호</label>
+        <input type="password" class="form-control form-control-sm" id="exampleInputPassword1">
+      </div>
+      <button class="btn btn-primary" id="submit">로그인</button>
+    </form>
+    <div class="mb-2">
+      <label class="form-label">JWT</label>
+      <input type="text" value="" class="form-control" name="jwt" id="exampleInputJWT1">
+      <label class="form-label">회원 정보</label>
+      <textarea class="form-control"  name="userinfo" id="userinfo" rows="10"></textarea>
+    </div>
+    <p class="h2">게시판 작성</p>
+    <form id="boardForm" name="boardForm">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-danger me-md-2 btn-sm" type="button" id="deleteBtn"> 삭제</button>
+        <button class="btn btn-success me-md-2 btn-sm" type="button" id="saveBtn">저장</button>
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">번호</label>
+        <input type="text" value="" class="form-control" name="id" id="exampleFormControlInput1" placeholder="번호">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">작성자</label>
+        <input type="text" value="" class="form-control" name="writer" id="exampleFormControlInput2" placeholder="작성자 입력하세요">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">제목</label>
+        <input type="text" class="form-control" name="subject" id="exampleFormControlInput3" placeholder="제목을 입력하세요">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">본문내용</label>
+        <textarea class="form-control"  name="content" id="exampleFormControlTextarea1" rows="10"></textarea>
+    </div>
+    </form>
+</div>
+<div class="container-lg">
+    <p class="h2">게시판 목록</p>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <a href="/board/write.html"><button class="btn btn-success me-md-2 btn-sm" type="button">글작성</button></a>
+    </div>
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col" width="10%">번호</th>
+        <th scope="col" width="50%">제목</th>
+        <th scope="col">작성자</th>
+        <th scope="col">작성일</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>id</th>
+          <td>subject</td>
+          <td>readCnt</td>
+          <td>registDate</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="h3">API 받기</p>
+    <div class="mb-3">
+      <label for="APIcontent" class="form-label">API내용</label>
+      <textarea class="form-control"  name="APIcontent" id="APIcontent" rows="10"></textarea>
+    </div>
+    <div>
+      <button class="btn btn-success me-md-2 btn-sm" type="button" id="APIbtn">불러오기</button>
+    </div>
+      <script>
+        function subject(obj){
+          $(document).ready(function() {const userjwt = document.getElementById('exampleInputJWT1').value;
+          fetch('http://127.0.0.1:8080/board/'+$(obj).attr('attr-check'),{
+                method : "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization : `SOS ${userjwt}`,
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    $('input[name=id]').attr('value',data.num);
+                    $('input[name=subject]').attr('value',data.subject);
+                    $('input[name=writer]').attr('value',data.writer);
+                    $('textarea[name=content]').html(data.content);
+                })
+                .catch(error => {console.error(error); alert("로그인 해주세요")});
+        })
+        }
+        // 게시글 하나 가져오기 요청    
+        $(document).ready(function() {
+          $("#saveBtn").on("click", function() {
+            const userjwt = document.getElementById('exampleInputJWT1').value;
+            console.log(userjwt)
+            const name = document.getElementById('exampleFormControlInput1').value;
+            // 저장하는 요청
+            fetch("http://localhost:8080/boardsave/"+name,{
+              method : "POST",
+              headers: {
+                      "Content-Type": "application/json",
+                      Authorization : `SOS ${userjwt}`,
+                  },
+              body : JSON.stringify({
+                  num : document.getElementById('exampleFormControlInput1').value,
+                  writer : document.getElementById('exampleFormControlInput2').value,
+                  subject : document.getElementById('exampleFormControlInput3').value,
+                  content : document.querySelector('#exampleFormControlTextarea1').value
+              })
+            }).then(response=>response.json())
+            .then(data=>{
+              console.log(data); 
+              console.log(document.querySelector('#exampleFormControlTextarea1').value) 
+              alert("저장되었습니다!")          
+            })
+            .catch(error=>{
+              console.log(error);
+              alert("저장을 실패했습니다!")   
+            })
+          
+          });
+          $("#deleteBtn").on("click", function() {
+            const userjwt = document.getElementById('exampleInputJWT1').value;
+            //게시글 삭제 요청
+            fetch("http://localhost:8080/boarddelete/"+$("input[name=id]").attr('value'),{
+              method : "DELETE",
+              headers: {
+                      "Content-Type": "application/json",
+                      Authorization : `SOS ${userjwt}`,
+                  }
+            }).then(response=>response.json())
+            .then(data=>{
+              console.log(data);  
+              alert(data.message);          
+            })
+            .catch(error=>{
+              console.log(error);
+              alert("삭제를 실패했습니다.")
+            })
+          });
+          //로그인 버튼을 누를 경우 JWT 요청
+          $("#submit").on("click", function(){
+            fetch("http://localhost:8080/login",{
+              method : "POST",
+              headers : {
+                "Content-Type": "application/json",
+              },
+              body : JSON.stringify({
+                username : document.getElementById('exampleInputUsername1').value,
+                password : document.getElementById('exampleInputPassword1').value,
+              })
+            }).then(res => res.json())
+              .then(data=>{
+                userjwt=data.data[0].token;
+                $('input[name=jwt]').attr('value',userjwt);
+                $('textarea[name=userinfo]').html(JSON.stringify(data));
+                console.log(data);
+              })
+              .catch(error=>{
+                console.log(data);
+                alert("아이디나 비번을 다시 확인해주세요");
+              })
+          });
+          $("#APIbtn").on("click", function(){
+            const userjwt = document.getElementById('exampleInputJWT1').value;
+            fetch("http://localhost:8080/api/",{  // 파라미터를 여기에 추가 해야합니다.
+              method : "GET",
+              headers : {
+                "Content-Type": "application/json",
+                Authorization : `SOS ${userjwt}`,
+              }
+            }).then(res => res.json())
+              .then(data=>{
+                $('textarea[name=APIcontent]').html(JSON.stringify(data));
+                console.log(data);
+              })
+              .catch(error=>{
+                console.log(data);
+                alert("불러오지 못했습니다");
+              })
+          });
+        });
+        //게시글 리스트 가져오기 요청
+        fetch('http://127.0.0.1:8080/boardlist',{
+          method : "GET",
+              headers : {
+                "Content-Type": "application/json",
+              },
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            renderTable(data);
+          })
+          .catch(error => {console.error(error);});
+        function renderTable(data) {
+            let tbodyData = [];
+            for (const iterator of data) {
+                tbodyData.push(`
+                    <tr>
+                        <th>${iterator.num}</th>
+                        <td><a href = "#" attr-check="${iterator.num}" onclick="javascript: subject(this);">${iterator.subject}</a></td>
+                        <td>${iterator.writer}</td>
+                        <td>${iterator.registDate}</td>
+                    </tr>
+                `)
+            }
+            document.querySelector('.table > tbody').innerHTML = tbodyData.join('');
+          }
+          
+      </script>
+</body>
+</html>
