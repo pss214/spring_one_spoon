@@ -2,22 +2,50 @@ package springonespoon.four.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springonespoon.four.DTO.LoginDTO;
 import springonespoon.four.DTO.ResponseDTO;
+import springonespoon.four.DTO.TokenDTO;
 import springonespoon.four.entity.Board;
-
-import java.time.LocalDate;
+import springonespoon.four.service.BoardService;
 import java.util.List;
-
-import static springonespoon.four.FourApplication.listadd;
 
 @RestController
 @CrossOrigin(origins = "*",originPatterns = "http://localhost:8080")
 public class MainController {
+    final private BoardService boardService;
+
+    public MainController(BoardService boardService) {
+        this.boardService = boardService;
+    }
+
     @GetMapping("/")
     public List<?> mainpage(){
         return List.of("A","B","C","d");
     }
     @GetMapping("/boardlist")
+    public ResponseEntity<?> boardList(){
+        return ResponseEntity.ok().body(boardService.GetBoardList());
+    }
+    @GetMapping("/board/{id}")
+    public ResponseEntity<?> boardview(@PathVariable int id) {
+        return ResponseEntity.ok().body(boardService.GetBoard(id));
+    }
+    @PostMapping("/boardsave/{id}")
+    public ResponseEntity<?> boardsave(@PathVariable int id,@RequestBody Board board){
+        return ResponseEntity.ok().body(boardService.SaveBoard(id, board));
+    }
+    @DeleteMapping("/boarddelete/{id}")
+    public ResponseEntity<?> boarddelete(@PathVariable int id){
+        return ResponseEntity.ok().body(boardService.DeleteBoard(id));
+    }
+    @PostMapping("/login")
+    public ResponseEntity<?> Userlogin(@RequestBody LoginDTO login){
+        return ResponseEntity.ok().body(ResponseDTO.builder().data(List.of(TokenDTO.builder().token("hihi").build())).build());
+    }
+}
+
+/*
+@GetMapping("/boardlist")
     public ResponseEntity<?> boardList(){
         return ResponseEntity.ok().body(listadd);
     }
@@ -54,5 +82,5 @@ public class MainController {
         }
         return ResponseEntity.badRequest().body(ResponseDTO.builder().message("찾을 수 없습니다").build());
     }
-}
+ */
 
