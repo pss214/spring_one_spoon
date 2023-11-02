@@ -32,6 +32,7 @@
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button class="btn btn-danger me-md-2 btn-sm" type="button" id="deleteBtn"> 삭제</button>
         <button class="btn btn-success me-md-2 btn-sm" type="button" id="saveBtn">저장</button>
+        <button class="btn btn-primary me-md-2 btn-sm" type="button" id="modifyBtn">수정</button>
     </div>
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">번호</label>
@@ -84,13 +85,16 @@
       <button class="btn btn-success me-md-2 btn-sm" type="button" id="APIbtn">불러오기</button>
     </div>
       <script>
+        var SERVER_URL = "http://localhost:8080"; //링크가 다른경우 수정해주세요.
         function subject(obj){
-          $(document).ready(function() {const userjwt = document.getElementById('exampleInputJWT1').value;
-          fetch('http://127.0.0.1:8080/board/'+$(obj).attr('attr-check'),{
+          $(document).ready(function() {
+          const userjwt = document.getElementById('exampleInputJWT1').value;
+          // 게시글 하나 가져오기 요청 
+          fetch(SERVER_URL+'/board/'+$(obj).attr('attr-check'),{
                 method : "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization : `SOS ${userjwt}`,
+                    // Authorization : `Bearer ${userjwt}`,
                 }
             })
                 .then(response => response.json())
@@ -104,18 +108,16 @@
                 .catch(error => {console.error(error); alert("로그인 해주세요")});
         })
         }
-        // 게시글 하나 가져오기 요청    
-        $(document).ready(function() {
+           
           $("#saveBtn").on("click", function() {
             const userjwt = document.getElementById('exampleInputJWT1').value;
             console.log(userjwt)
-            const name = document.getElementById('exampleFormControlInput1').value;
             // 저장하는 요청
-            fetch("http://localhost:8080/boardsave/"+name,{
+            fetch(SERVER_URL+"/boardsave",{
               method : "POST",
               headers: {
                       "Content-Type": "application/json",
-                      Authorization : `SOS ${userjwt}`,
+                      // Authorization : `Bearer ${userjwt}`,
                   },
               body : JSON.stringify({
                   num : document.getElementById('exampleFormControlInput1').value,
@@ -133,16 +135,40 @@
               console.log(error);
               alert("저장을 실패했습니다!")   
             })
-          
+          });
+          // 게시글 수정 요청
+          $("#modifyBtn").on("click", function() {
+            const userjwt = document.getElementById('exampleInputJWT1').value;
+            const name = document.getElementById('exampleFormControlInput1').value;
+            fetch(SERVER_URL+"/boardmodify/"+name,{
+              method : "PUT",
+              headers: {
+                      "Content-Type": "application/json",
+                      // Authorization : `Bearer ${userjwt}`,
+                  },
+                  body: JSON.stringify({
+                    writer : document.getElementById('exampleFormControlInput2').value,
+                    subject : document.getElementById('exampleFormControlInput3').value,
+                    content : document.querySelector('#exampleFormControlTextarea1').value
+                  })
+            }).then(response=>response.json())
+            .then(data=>{
+              console.log(data);  
+              alert(data.message);          
+            })
+            .catch(error=>{
+              console.log(error);
+              alert("삭제를 실패했습니다.")
+            })
           });
           $("#deleteBtn").on("click", function() {
             const userjwt = document.getElementById('exampleInputJWT1').value;
             //게시글 삭제 요청
-            fetch("http://localhost:8080/boarddelete/"+$("input[name=id]").attr('value'),{
+            fetch(SERVER_URL+"/boarddelete/"+$("input[name=id]").attr('value'),{
               method : "DELETE",
               headers: {
                       "Content-Type": "application/json",
-                      Authorization : `SOS ${userjwt}`,
+                      // Authorization : `Bearer ${userjwt}`,
                   }
             }).then(response=>response.json())
             .then(data=>{
@@ -156,7 +182,7 @@
           });
           //로그인 버튼을 누를 경우 JWT 요청
           $("#submit").on("click", function(){
-            fetch("http://localhost:8080/login",{
+            fetch(SERVER_URL+"/user/signin",{
               method : "POST",
               headers : {
                 "Content-Type": "application/json",
@@ -179,11 +205,11 @@
           });
           $("#APIbtn").on("click", function(){
             const userjwt = document.getElementById('exampleInputJWT1').value;
-            fetch("http://localhost:8080/api/",{  // 파라미터를 여기에 추가 해야합니다.
+            fetch(SERVER_URL+"/api/",{  // 파라미터를 여기에 추가 해야합니다.
               method : "GET",
               headers : {
                 "Content-Type": "application/json",
-                Authorization : `SOS ${userjwt}`,
+                // Authorization : `Bearer ${userjwt}`,
               }
             }).then(res => res.json())
               .then(data=>{
@@ -195,9 +221,8 @@
                 alert("불러오지 못했습니다");
               })
           });
-        });
         //게시글 리스트 가져오기 요청
-        fetch('http://127.0.0.1:8080/boardlist',{
+        fetch(SERVER_URL+'/boardlist',{
           method : "GET",
               headers : {
                 "Content-Type": "application/json",

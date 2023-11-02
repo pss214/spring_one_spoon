@@ -30,17 +30,17 @@ public class MainController {
     public ResponseEntity<?> boardview(@PathVariable int id) {
         return ResponseEntity.ok().body(boardService.GetBoard(id));
     }
-    @PostMapping("/boardsave/{id}")
-    public ResponseEntity<?> boardsave(@PathVariable int id,@RequestBody Board board){
-        return ResponseEntity.ok().body(boardService.SaveBoard(id, board));
+    @PostMapping("/boardsave")
+    public ResponseEntity<?> boardsave(@RequestBody Board board){
+        return ResponseEntity.ok().body(boardService.SaveBoard(board));
     }
     @DeleteMapping("/boarddelete/{id}")
     public ResponseEntity<?> boarddelete(@PathVariable int id){
         return ResponseEntity.ok().body(boardService.DeleteBoard(id));
     }
-    @PostMapping("/login")
-    public ResponseEntity<?> Userlogin(@RequestBody LoginDTO login){
-        return ResponseEntity.ok().body(ResponseDTO.builder().data(List.of(TokenDTO.builder().token("hihi").build())).build());
+    @PutMapping("/boardmodify/{id}")
+    public ResponseEntity<?> boardmodify(@PathVariable int id,@RequestBody Board board){
+        return ResponseEntity.ok().body(boardService.ModifyBoard(id, board));
     }
 }
 
