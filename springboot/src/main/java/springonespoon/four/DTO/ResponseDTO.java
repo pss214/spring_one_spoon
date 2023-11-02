@@ -1,14 +1,14 @@
 package springonespoon.four.DTO;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.List;
 
 @Data
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ResponseDTO<T> {
         List<T> data;
         String message;
