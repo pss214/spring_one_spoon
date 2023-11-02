@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<body>
+<div class="container-lg">
+    <p class="h2">회원</p>
+    <form>
+      <div class="mb-2">
+        <label for="exampleInputUsername1" class="form-label">아이디</label>
+        <input type="text" class="form-control form-control-sm" id="exampleInputUsername1">
+      </div>
+      <div class="mb-2">
+        <label for="exampleInputPassword1" class="form-label">비밀번호</label>
+        <input type="text" class="form-control form-control-sm" id="exampleInputPassword1">
+      </div>
+      <div class="mb-2">
+        <label for="exampleInputEmail1" class="form-label">이메일</label>
+        <input type="text" class="form-control form-control-sm" id="exampleInputEmail1">
+      </div>
+      <div class="mb-2">
+        <label for="exampleInputPhone1" class="form-label">휴대폰</label>
+        <input type="text" class="form-control form-control-sm" id="exampleInputPhone1">
+      </div>
+      <button class="btn btn-primary" id="submit">회원가입</button>
+    </form>
+      <script>
+        var SERVER_URL = "http://localhost:8080"; //링크가 다른경우 수정해주세요.
+        // 게시글 하나 가져오기 요청    
+        $(document).ready(function() {
+          //회원가입 버튼을 누를 경우 회원 가입됨
+          $("#submit").on("click", function(){
+            fetch(SERVER_URL+"/user/signup",{
+              method : "POST",
+              headers : {
+                "Content-Type": "application/json",
+              },
+              body : JSON.stringify({
+                username : document.getElementById('exampleInputUsername1').value,
+                password : document.getElementById('exampleInputPassword1').value,
+                email : document.getElementById('exampleInputEmail1').value,
+                phone : document.getElementById('exampleInputPhone1').value,
+              })
+            }).then(res => res.json())
+              .then(data=>{
+                alert("회원가입이 되었습니다.");
+                console.log(data);
+              })
+              .catch(error=>{
+                console.log(data);
+                alert("아이디나 비번을 다시 확인해주세요");
+              })
+          });
+        })          
+      </script>
+</body>
+</html>
