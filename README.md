@@ -15,8 +15,6 @@
 
 - 6주차 HTTP? / 프론트-백엔드의 흐름 / 로그인 구현 / jwt?
 ## 수업 자료
-[[pdf로 준비했습니다]](https://github.com/pss214/spring_one_spoon/tree/main/ppt) 수업 자료폴더
-
+[[pdf로 준비했습니다]](https://drive.google.com/drive/folders/1Q4cqS0iKLbpKqq4jKyC04oDcg4pyXlEC?usp=sharing) 수업 자료폴더
+## 참고 사이트
 [ [스프링 프로젝트] ](https://start.spring.io/) 스프링 프로젝트를 만드는 사이트
-
-au774mPDNO37gAJrlTNvjrymn07a/f739RcICwnifiDnut1ekKDvSB8VpIbxYugjR0bPwIe1TM7uTzYk3yjsiw==
